@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
+using ToDoListAPI.DTO;
 using ToDoListAPI.Infrastracture.DB.SQLServer;
 using ToDoListAPI.Models;
 
@@ -98,7 +99,7 @@ WHERE
         }
 
         [HttpPost]
-        public IActionResult CreateToDoList([FromBody] ToDoList param)
+        public IActionResult CreateToDoList([FromBody] ToDoListRequest param)
         {
             int count;
             try
@@ -125,7 +126,7 @@ WHERE
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateToDoList([FromBody] ToDoList param, int id)
+        public IActionResult UpdateToDoList([FromBody] ToDoListRequest param, int id)
         {
             int updateCount = 0;
             try
@@ -138,7 +139,7 @@ WHERE
                 toDoList.Remarks = param.Remarks;
                 toDoList.UpdatedAt = DateTime.Now;
 
-                int count = _dbContext.SaveChanges();
+                updateCount = _dbContext.SaveChanges();
             }
             catch (Exception ex) 
             {

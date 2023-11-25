@@ -48,7 +48,7 @@ WHERE
             {
                 record = _dbContext.ToDoLists.FromSql(select);
                 // EFの機能でSQL使用しない場合
-                // record = _dbContext.ToDoLists.ToArray();
+                //record = _dbContext.ToDoLists.Where(todo => todo.DeletedAt == null).ToList();
 
                 record.ToList().ForEach(toDo =>
                 {

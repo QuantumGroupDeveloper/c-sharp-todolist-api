@@ -38,22 +38,45 @@ SELECT
 FROM 
   to_do_list 
 WHERE 
-  deleted_at is null";
+  deleted_at is null
+";
 
             IEnumerable<ToDoList> record;
+            List<ToDoListResponse> responseData = new List<ToDoListResponse>();
 
             try
             {
                 record = _dbContext.ToDoLists.FromSql(select);
                 // EFの機能でSQL使用しない場合
                 // record = _dbContext.ToDoLists.ToArray();
+
+                record.ToList().ForEach(toDo =>
+                {
+                    bool isOverdue = false;
+                    if (toDo.Deadline.HasValue)
+                    {
+                        isOverdue = DateTime.Now> toDo.Deadline.Value;
+                    }
+
+                    responseData.Add(new ToDoListResponse()
+                    {
+                        Id = toDo.Id,
+                        Title = toDo.Title,
+                        Detail = toDo.Detail,
+                        Place = toDo.Place,
+                        Deadline = toDo.Deadline,
+                        Remarks = toDo.Remarks,
+                        IsOverdue = isOverdue,
+                    });
+                    
+                });
             }
             catch (Exception ex) 
             {
                 return StatusCode(500, ex.Message);
             }
 
-            return Ok(record);
+            return Ok(responseData);
 
         }
 
@@ -79,6 +102,7 @@ WHERE
 ";
 
             ToDoList? record;
+            ToDoListResponse responseData = new ToDoListResponse();
             try
             {
                 record = _dbContext.ToDoLists.FromSql(select).FirstOrDefault();
@@ -88,6 +112,20 @@ WHERE
                 {
                     return NotFound();
                 }
+
+                responseData.Id = record.Id;
+                responseData.Title = record.Title;
+                responseData.Detail = record.Detail;
+                responseData.Place = record.Place;
+                responseData.Deadline = record.Deadline;
+                responseData.Remarks = record.Remarks;
+                
+                if (record.Deadline.HasValue)
+                {
+                    responseData.IsOverdue = DateTime.Now > record.Deadline.Value;
+                }
+
+
             }
             catch (Exception ex) 
             {

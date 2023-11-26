@@ -14,9 +14,9 @@ namespace ToDoListAPI.Controllers
     [Route("api/todolist")]
     public class ToDoListController : Controller
     {
-        private readonly ClassworkContext _dbContext;
+        private readonly TodolistContext _dbContext;
 
-        public ToDoListController(ClassworkContext dbContext)
+        public ToDoListController(TodolistContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -55,7 +55,7 @@ WHERE
                     bool isOverdue = false;
                     if (toDo.Deadline.HasValue)
                     {
-                        isOverdue = DateTime.Now> toDo.Deadline.Value;
+                        isOverdue = DateTime.Now > toDo.Deadline.Value;
                     }
 
                     responseData.Add(new ToDoListResponse()
@@ -68,10 +68,10 @@ WHERE
                         Remarks = toDo.Remarks,
                         IsOverdue = isOverdue,
                     });
-                    
+
                 });
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -107,7 +107,7 @@ WHERE
             {
                 record = _dbContext.ToDoLists.FromSql(select).FirstOrDefault();
                 // EFの機能でSQL使用しない場合
-                // record = _dbContext.ToDoLists.FindAsync(id);
+                //record = _dbContext.ToDoLists.Where(todo => todo.Id == id && todo.DeletedAt == null).FirstOrDefault();
                 if (record == null)
                 {
                     return NotFound();
@@ -119,7 +119,7 @@ WHERE
                 responseData.Place = record.Place;
                 responseData.Deadline = record.Deadline;
                 responseData.Remarks = record.Remarks;
-                
+
                 if (record.Deadline.HasValue)
                 {
                     responseData.IsOverdue = DateTime.Now > record.Deadline.Value;
@@ -127,7 +127,7 @@ WHERE
 
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -155,7 +155,7 @@ WHERE
                 _dbContext.ToDoLists.Add(toDoList);
                 count = _dbContext.SaveChanges();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -179,7 +179,7 @@ WHERE
 
                 updateCount = _dbContext.SaveChanges();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

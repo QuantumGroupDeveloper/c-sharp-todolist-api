@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ToDoListAPI.Models;
 
@@ -23,6 +22,4 @@ public partial class ToDoList
     public DateTime? UpdatedAt { get; set; }
 
     public DateTime? DeletedAt { get; set; }
-
-    public virtual ICollection<ToDoListUser> ToDoListUsers { get; set; } = new List<ToDoListUser>();
 }

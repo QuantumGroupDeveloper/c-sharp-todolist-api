@@ -11,11 +11,12 @@ C#のAPI課題（ToDoList）
 # 実行方法
 >前提\
 SQL Serverをインストール済み
+認証方法はSA認証
 
 - DDLフォルダ内のsqlファイルをSQL Serverで実行する\
 下記DBが作成される
   - データベース
-    - classwork
+    - todolist
   - テーブル
     - to_do_list
 

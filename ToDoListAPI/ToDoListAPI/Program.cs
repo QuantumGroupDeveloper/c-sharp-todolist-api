@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<ClassworkContext>(option => option.UseSqlServer("Name=ConnectionStrings:sqlserver"));
+builder.Services.AddDbContext<TodolistContext>(option => option.UseSqlServer("Name=ConnectionStrings:sqlserver"));
 
 var app = builder.Build();
 

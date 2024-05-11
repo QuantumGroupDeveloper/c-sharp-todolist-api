@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ToDoListAPI.Infrastracture.DB.SQLServer;
+// using ToDoListAPI.Infrastracture.DB.SQLServer;
+using ToDoListAPI.Infrastracture.DB.MySQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<TodolistContext>(option => option.UseSqlServer("Name=ConnectionStrings:sqlserver"));
+// SQLServer
+// builder.Services.AddDbContext<TodolistContext>(option => option.UseSqlServer("Name=ConnectionStrings:sqlserver"));
+
+// MySQL
+IConfiguration config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
+string connectionString = config["ConnectionStrings:mysql"];
+builder.Services.AddDbContext<TodolistContext>(option => option.UseMySQL(connectionString));
 
 var app = builder.Build();
 

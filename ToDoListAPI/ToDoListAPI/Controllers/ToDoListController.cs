@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using ToDoListAPI.DTO;
-using ToDoListAPI.Infrastracture.DB.SQLServer;
+// using ToDoListAPI.Infrastracture.DB.SQLServer;
+using ToDoListAPI.Infrastracture.DB.MySQL;
 using ToDoListAPI.Models;
 
 namespace ToDoListAPI.Controllers

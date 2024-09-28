@@ -11,10 +11,10 @@ C#のAPI課題（ToDoList）
 
 # 実行方法
 >前提\
+>MySQLをインストール済み<br>
 ~~SQL Serverをインストール済み~~ <br>
 ~~認証方法はSA認証~~
 <br>
->MySQLをインストール済み
 
 >MySQL版
 
